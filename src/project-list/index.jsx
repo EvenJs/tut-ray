@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import List from "./list";
 import SearchPanel from "./search-panel";
 import * as qs from "qs";
-import { cleanObject } from "utils";
-import { isTrue } from "utils";
+import { cleanObject, isTrue } from "utils";
+import pipe from "lodash/fp/pipe";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -31,15 +31,19 @@ const ProjectSearchList = () => {
   };
 
   useEffect(() => {
-    fetch(
-      `${apiUrl}/projects?${qs.stringify(
-        changeParamProjectName(cleanObject(param))
-      )}`
-    ).then(async (response) => {
-      if (response.ok) {
-        setList(await response.json());
+    const combineParam = pipe(
+      cleanObject,
+      changeParamProjectName,
+      qs.stringify
+    );
+
+    fetch(`${apiUrl}/projects?${combineParam(param)}`).then(
+      async (response) => {
+        if (response.ok) {
+          setList(await response.json());
+        }
       }
-    });
+    );
   }, [param]);
 
   return (

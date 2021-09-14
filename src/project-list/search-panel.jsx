@@ -22,7 +22,7 @@ const SearchPanel = ({ param, setParam, managers }) => {
         onChange={(e) => {
           setParam({
             ...param,
-            project_name: e,
+            project_name: e.target.value,
           });
         }}
       />
