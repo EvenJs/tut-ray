@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const SearchPanel = () => {
-  const [param, setParam] = useState();
+  const [param, setParam] = useState({ project_name: "", manager_id: "" });
   const [managers, setManagers] = useState([]);
   /*
   const getInput= (e) => {
@@ -21,7 +21,7 @@ const SearchPanel = () => {
   }
 */
   useEffect(() => {
-    fetch(`${apiUrl}`).then(async (response) => {
+    fetch(`${apiUrl}/managers`).then(async (response) => {
       if (response.ok) {
         setManagers(await response.json());
       }
@@ -50,6 +50,11 @@ const SearchPanel = () => {
         }}
       >
         <option value="">Manager</option>
+        {managers.map((manager) => (
+          <option value={manager.id} key={manager.id}>
+            {manager.name}
+          </option>
+        ))}
       </select>
     </form>
   );
