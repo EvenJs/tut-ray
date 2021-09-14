@@ -1,10 +1,4 @@
-import { useEffect, useState } from "react";
-
-const apiUrl = process.env.REACT_APP_API_URL;
-
-const SearchPanel = () => {
-  const [param, setParam] = useState({ project_name: "", manager_id: "" });
-  const [managers, setManagers] = useState([]);
+const SearchPanel = ({ param, setParam, managers }) => {
   /*
   const getInput= (e) => {
     setParam({
@@ -20,14 +14,6 @@ const SearchPanel = () => {
     })
   }
 */
-  useEffect(() => {
-    fetch(`${apiUrl}/managers`).then(async (response) => {
-      if (response.ok) {
-        setManagers(await response.json());
-      }
-    });
-  });
-
   return (
     <form>
       <input
